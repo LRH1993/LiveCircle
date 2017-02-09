@@ -4,4 +4,6 @@
     <string name="net_error">网络访问错误，请稍后再试</string>
     <string name="download">下载中心</string>
     <string name="search">搜索</string>
+    <!-- 共享过度动画 -->
+    <string name="transition_photos">transition_animation_news_photos</string>
 </resources>

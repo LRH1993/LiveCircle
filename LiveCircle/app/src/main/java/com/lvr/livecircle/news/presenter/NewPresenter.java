@@ -6,4 +6,5 @@ package com.lvr.livecircle.news.presenter;
 
 public interface NewPresenter {
     void lodeMineChannelsRequest();
+    void loadNewsListRequest(String newsType, final String id, int startPage);
 }

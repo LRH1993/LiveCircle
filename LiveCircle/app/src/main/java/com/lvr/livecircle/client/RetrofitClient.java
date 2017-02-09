@@ -167,7 +167,7 @@ public class RetrofitClient {
                 .subscribe(observer);
     }
     //处理线程调度的变换
-    ObservableTransformer schedulersTransformer = new ObservableTransformer() {
+    public static ObservableTransformer schedulersTransformer = new ObservableTransformer() {
         @Override
         public ObservableSource apply(Observable upstream) {
             return ((Observable) upstream).subscribeOn(Schedulers.io())

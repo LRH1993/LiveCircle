@@ -99,13 +99,27 @@ public class MainActivity extends BaseActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         FragmentManager manager = getSupportFragmentManager();
-        manager.putFragment(outState,"NewsFragment",mNewsFragment);
-        manager.putFragment(outState,"FindFragment",mFindFragment);
-        manager.putFragment(outState,"VideoFragment",mVideoFragment);
-        manager.putFragment(outState,"NearByFragment",mNearByFragment);
-        manager.putFragment(outState,"MeiTuFragment",mMeiTuFragment);
-        manager.putFragment(outState,"MusicFragment",mMusicFragment);
-        manager.putFragment(outState,"RecommendFragment",mRecommendFragment);
+        if (mNewsFragment.isAdded()){
+            manager.putFragment(outState,"NewsFragment",mNewsFragment);
+        }
+        if(mFindFragment.isAdded()){
+            manager.putFragment(outState,"FindFragment",mFindFragment);
+        }
+        if(mVideoFragment.isAdded()){
+            manager.putFragment(outState,"VideoFragment",mVideoFragment);
+        }
+        if(mNearByFragment.isAdded()){
+            manager.putFragment(outState,"NearByFragment",mNearByFragment);
+        }
+        if(mMeiTuFragment.isAdded()){
+            manager.putFragment(outState,"MeiTuFragment",mMeiTuFragment);
+        }
+        if(mMusicFragment.isAdded()){
+            manager.putFragment(outState,"MusicFragment",mMusicFragment);
+        }
+        if(mRecommendFragment.isAdded()){
+            manager.putFragment(outState,"RecommendFragment",mRecommendFragment);
+        }
     }
 
     /**

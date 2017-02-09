@@ -25,6 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public Context mContext;
     private Unbinder mUnbinder;
+    private int count;//记录开启进度条的情况 只能开一个
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -131,7 +132,10 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 开启浮动加载进度条
      */
     public void startProgressDialog() {
-        LoadingDialog.showDialogForLoading(this);
+        count++;
+        if(count==1){
+            LoadingDialog.showDialogForLoading(this);
+        }
     }
 
     /**
@@ -140,14 +144,21 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param msg
      */
     public void startProgressDialog(String msg) {
-        LoadingDialog.showDialogForLoading(this, msg, true);
+        count++;
+        if(count==1){
+            LoadingDialog.showDialogForLoading(this, msg, true);
+        }
     }
 
     /**
      * 停止浮动加载进度条
      */
     public void stopProgressDialog() {
-        LoadingDialog.cancelDialogForLoading();
+        count--;
+        if(count==0){
+            LoadingDialog.cancelDialogForLoading();
+        }
+
     }
 
     /**

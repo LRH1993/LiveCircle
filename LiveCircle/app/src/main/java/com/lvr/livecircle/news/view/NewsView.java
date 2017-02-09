@@ -1,5 +1,6 @@
 package com.lvr.livecircle.news.view;
 
+import com.lvr.livecircle.bean.NewsInfo;
 import com.lvr.livecircle.news.model.bean.NewsChannelTable;
 
 import java.util.List;
@@ -10,4 +11,5 @@ import java.util.List;
 
 public interface NewsView {
     void returnNewsChannel(List<NewsChannelTable> tables);
+    void returnNewsList(List<NewsInfo> info);
 }

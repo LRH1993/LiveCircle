@@ -20,6 +20,7 @@ public abstract class BaseFragment extends Fragment {
     protected View rootView;
 
     private Unbinder mUnbinder;
+    private int count;//记录开启进度条的情况 只能开一个
 
     @Nullable
     @Override
@@ -84,7 +85,10 @@ public abstract class BaseFragment extends Fragment {
      * 开启加载进度条
      */
     public void startProgressDialog() {
-        LoadingDialog.showDialogForLoading(getActivity());
+        count++;
+        if(count==1){
+            LoadingDialog.showDialogForLoading(getActivity());
+        }
     }
 
     /**
@@ -93,7 +97,10 @@ public abstract class BaseFragment extends Fragment {
      * @param msg
      */
     public void startProgressDialog(String msg) {
-        LoadingDialog.showDialogForLoading(getActivity(), msg, true);
+        count--;
+        if(count==0){
+            LoadingDialog.showDialogForLoading(getActivity(), msg, true);
+        }
     }
 
     /**
