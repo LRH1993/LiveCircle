@@ -226,7 +226,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         mUnbinder.unbind();
         AppManager.getAppManager().finishActivity(this);
     }

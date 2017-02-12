@@ -24,6 +24,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".home.MainActivity"></activity>
+        <activity android:name=".news.activity.NewsChannelActivity"></activity>
+        <activity android:name=".news.activity.NewsDetailActivity"></activity>
+        <activity android:name=".news.activity.NewsPhotoDetailActivity"></activity>
     </application>
 
 </manifest>

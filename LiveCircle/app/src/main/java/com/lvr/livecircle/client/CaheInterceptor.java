@@ -26,7 +26,7 @@ public class CaheInterceptor implements Interceptor {
             // read from cache for 60 s
             int maxAge = 60;
             String cacheControl = request.cacheControl().toString();
-            Log.e("CacheInterceptor", "60s load cahe" + cacheControl);
+            Log.e("CacheInterceptor", "6s load cahe" + cacheControl);
             return response.newBuilder()
                     .removeHeader("Pragma")
                     .removeHeader("Cache-Control")

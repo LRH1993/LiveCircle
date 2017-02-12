@@ -3,6 +3,7 @@ package com.lvr.livecircle.home;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,8 @@ import android.widget.ImageView;
 import com.lvr.livecircle.R;
 import com.lvr.livecircle.adapter.HomeViewPagerAdapter;
 import com.lvr.livecircle.base.BaseActivity;
+import com.lvr.livecircle.bean.FabScrollBean;
+import com.lvr.livecircle.bean.FabShowBean;
 import com.lvr.livecircle.find.FindFragment;
 import com.lvr.livecircle.meitu.MeiTuFragment;
 import com.lvr.livecircle.music.MusicFragment;
@@ -33,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindView;
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 
 public class MainActivity extends BaseActivity {
 
@@ -46,10 +51,12 @@ public class MainActivity extends BaseActivity {
     TabLayout mTabs;
     @BindView(R.id.vp_moudle)
     ViewPager mVpMoudle;
+    @BindView(R.id.fab)
+    FloatingActionButton mFab;
     private View mView_nav;
     private ImageView mIv_photo;
     private String[] mMoudleName = {"推荐", "新闻", "音乐", "美图", "附近", "视频", "发现"};
-    private ArrayList<Fragment> mFragmentList= new ArrayList<Fragment>();
+    private ArrayList<Fragment> mFragmentList = new ArrayList<Fragment>();
     private NewsFragment mNewsFragment;
     private RecommendFragment mRecommendFragment;
     private MusicFragment mMusicFragment;
@@ -58,6 +65,7 @@ public class MainActivity extends BaseActivity {
     private VideoFragment mVideoFragment;
     private FindFragment mFindFragment;
     private HomeViewPagerAdapter mAdapter;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
@@ -73,10 +81,44 @@ public class MainActivity extends BaseActivity {
         StatusBarSetting.setColorForDrawerLayout(this, mAmDl, getResources().getColor(R.color.colorPrimary), StatusBarSetting.DEFAULT_STATUS_BAR_ALPHA);
         setToolBar();
         setNavigationView();
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new FabScrollBean("滑动到顶端"));
+            }
+        });
+        EventBus.getDefault().register(this);
+        mTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                if(position==1){
+                    mFab.setVisibility(View.VISIBLE);
+                }else{
+                    mFab.setVisibility(View.GONE);
+                }
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
     }
-
+    @Subscribe
+    public void onFabShowEvent(FabShowBean event){
+        if(event.isShow()){
+            mFab.setVisibility(View.VISIBLE);
+        }else{
+            mFab.setVisibility(View.GONE);
+        }
+    }
 
 
     @Override
@@ -86,6 +128,7 @@ public class MainActivity extends BaseActivity {
         initFragment(savedInstanceState);
         setViewPager();
     }
+
     /**
      * 填充ViewPager内容
      */
@@ -93,37 +136,39 @@ public class MainActivity extends BaseActivity {
         mAdapter = new HomeViewPagerAdapter(getSupportFragmentManager(), mFragmentList, Arrays.asList(mMoudleName));
         mVpMoudle.setAdapter(mAdapter);
         mTabs.setupWithViewPager(mVpMoudle);
-        mTabs.setTabTextColors(getResources().getColor(R.color.white),getResources().getColor(R.color.black));
+        mTabs.setTabTextColors(getResources().getColor(R.color.white), getResources().getColor(R.color.black));
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         FragmentManager manager = getSupportFragmentManager();
-        if (mNewsFragment.isAdded()){
-            manager.putFragment(outState,"NewsFragment",mNewsFragment);
+        if (mNewsFragment.isAdded()) {
+            manager.putFragment(outState, "NewsFragment", mNewsFragment);
         }
-        if(mFindFragment.isAdded()){
-            manager.putFragment(outState,"FindFragment",mFindFragment);
+        if (mFindFragment.isAdded()) {
+            manager.putFragment(outState, "FindFragment", mFindFragment);
         }
-        if(mVideoFragment.isAdded()){
-            manager.putFragment(outState,"VideoFragment",mVideoFragment);
+        if (mVideoFragment.isAdded()) {
+            manager.putFragment(outState, "VideoFragment", mVideoFragment);
         }
-        if(mNearByFragment.isAdded()){
-            manager.putFragment(outState,"NearByFragment",mNearByFragment);
+        if (mNearByFragment.isAdded()) {
+            manager.putFragment(outState, "NearByFragment", mNearByFragment);
         }
-        if(mMeiTuFragment.isAdded()){
-            manager.putFragment(outState,"MeiTuFragment",mMeiTuFragment);
+        if (mMeiTuFragment.isAdded()) {
+            manager.putFragment(outState, "MeiTuFragment", mMeiTuFragment);
         }
-        if(mMusicFragment.isAdded()){
-            manager.putFragment(outState,"MusicFragment",mMusicFragment);
+        if (mMusicFragment.isAdded()) {
+            manager.putFragment(outState, "MusicFragment", mMusicFragment);
         }
-        if(mRecommendFragment.isAdded()){
-            manager.putFragment(outState,"RecommendFragment",mRecommendFragment);
+        if (mRecommendFragment.isAdded()) {
+            manager.putFragment(outState, "RecommendFragment", mRecommendFragment);
         }
     }
 
     /**
      * 初始化fragment的记忆状态
+     *
      * @param savedInstanceState
      */
     private void initFragment(Bundle savedInstanceState) {

@@ -6,4 +6,10 @@
     <string name="search">搜索</string>
     <!-- 共享过度动画 -->
     <string name="transition_photos">transition_animation_news_photos</string>
+    <string name="channel_manage">频道管理</string>
+    <string name="my_channel">我的频道</string>
+    <string name="more_channel">点击添加更多频道</string>
+    <string name="reload">重新尝试</string>
+    <string name="empty">还没有数据</string>
+    <string name="news_from">%1$s %2$s</string>
 </resources>

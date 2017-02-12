@@ -2,13 +2,16 @@ package com.lvr.livecircle.api;
 
 
 import com.lvr.livecircle.bean.NewsInfo;
+import com.lvr.livecircle.news.model.bean.NewsDetail;
 
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Url;
 
 /**
  * Created by lvr on 2017/2/8.
@@ -21,4 +24,11 @@ public interface ApiService {
     Observable<Map<String, List<NewsInfo>>> getNewsList(
             @Path("type") String type, @Path("id") String id,
             @Path("startPage") int startPage);
+
+    @GET("{postId}/full.html")
+    Observable<Map<String, NewsDetail>> getNewDetail(
+            @Path("postId") String postId);
+    @GET
+    Observable<ResponseBody> getNewsBodyHtmlPhoto(
+            @Url String photoPath);
 }

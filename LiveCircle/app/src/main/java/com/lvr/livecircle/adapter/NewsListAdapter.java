@@ -12,15 +12,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lvr.livecircle.R;
 import com.lvr.livecircle.bean.NewsInfo;
+import com.lvr.livecircle.home.MainActivity;
+import com.lvr.livecircle.news.activity.NewsChannelActivity;
+import com.lvr.livecircle.news.activity.NewsDetailActivity;
+import com.lvr.livecircle.news.activity.NewsPhotoDetailActivity;
 import com.lvr.livecircle.news.model.bean.NewsChannelTable;
+import com.lvr.livecircle.news.model.bean.NewsPhotoDetail;
 import com.lvr.livecircle.utils.DisplayUtil;
 import com.lvr.livecircle.utils.ImageLoaderUtils;
 import com.lvr.livecircle.utils.ToastUitl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lvr.livecircle.R.id.news_summary_photo_iv_group;
@@ -32,7 +37,7 @@ import static com.lvr.livecircle.R.id.news_summary_photo_iv_group;
 public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
     private final LayoutInflater inflater;
-    private List<NewsInfo> list;
+    private List<NewsInfo> list ;
     private List<NewsChannelTable> mTables;
     //新闻模式
     private static final int TYPE_SINGLE = 0;
@@ -40,6 +45,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_MULTI = 1;
     //头布局模式
     private static final int TYPE_HEADER = 2;
+    //尾布局模式
+    private static final int TYPE_FOOT = 3;
+    //新闻频道切换监听
+    private OnNewsChannelListener mNewsChannelListener;
 
     public NewsListAdapter(Context context, List<NewsInfo> list, List<NewsChannelTable> tables) {
         this.context = context;
@@ -54,6 +63,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if(info.getTitle().endsWith("头布局")){
             return TYPE_HEADER;
         }
+
         if (!TextUtils.isEmpty(info.getDigest()))
         {
             return TYPE_SINGLE;
@@ -70,6 +80,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return new MultiViewHolder(inflater.inflate(R.layout.item_news_photo, parent, false));
             case TYPE_HEADER:
                 return new HeaderViewHolder(inflater.inflate(R.layout.item_news_header,parent,false));
+
         }
         return null;
     }
@@ -81,10 +92,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             setNormalItemValues((SingleViewHolder) holder,position);
         }else if(holder instanceof  MultiViewHolder){
             setMultiItemValues((MultiViewHolder) holder,position);
-        }else{
+        }else if(holder instanceof HeaderViewHolder){
             setHeaderItemValues((HeaderViewHolder) holder);
         }
     }
+
+
 
     //设置头布局的值
     private void setHeaderItemValues(HeaderViewHolder holder) {
@@ -106,26 +119,72 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     //新闻模式下item值的设置
-    private void setNormalItemValues(SingleViewHolder holder, int position) {
-        NewsInfo newsInfo = list.get(position);
+    private void setNormalItemValues(final SingleViewHolder holder, int position) {
+        final NewsInfo newsInfo = list.get(position);
         String title = newsInfo.getTitle();
-        String content = newsInfo.getDigest();
+        final String content = newsInfo.getDigest();
         String time = newsInfo.getPtime();
         String imgsrc = newsInfo.getImgsrc();
         holder.mTitle.setText(title==null?"新闻头条":title);
         holder.mContent.setText(content);
         holder.mTime.setText(time);
         ImageLoaderUtils.display(context,holder.mImageView,imgsrc);
+        holder.mLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewsDetailActivity.startAction(context,holder.mImageView,newsInfo.getPostid(),newsInfo.getImgsrc());
+            }
+        });
     }
 
     //图集模式下item值的设置
     private void setMultiItemValues(MultiViewHolder holder, int position) {
-        NewsInfo newsInfo = list.get(position);
+        final NewsInfo newsInfo = list.get(position);
         String title = newsInfo.getTitle();
         String time = newsInfo.getPtime();
         holder.mTitle.setText(title==null?"新闻头条":title);
         holder.mTime.setText(time);
         setImageView(holder,newsInfo);
+        holder.mRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewsPhotoDetailActivity.startAction(context,getPhotoDetail(newsInfo));
+            }
+        });
+    }
+
+    private NewsPhotoDetail getPhotoDetail(NewsInfo info) {
+        NewsPhotoDetail newsPhotoDetail = new NewsPhotoDetail();
+        newsPhotoDetail.setTitle(info.getTitle());
+        setPictures(info, newsPhotoDetail);
+        return newsPhotoDetail;
+    }
+
+    private void setPictures(NewsInfo info, NewsPhotoDetail detail) {
+        List<NewsPhotoDetail.Picture> pictureList = new ArrayList<>();
+        if (info.getAds() != null) {
+            for (NewsInfo.AdsBean entity : info.getAds()) {
+                setValuesAndAddToList(pictureList, entity.getTitle(), entity.getImgsrc());
+            }
+        } else if (info.getImgextra() != null) {
+            for (NewsInfo.ImgextraBean entity : info.getImgextra()) {
+                setValuesAndAddToList(pictureList, null, entity.getImgsrc());
+            }
+        } else {
+            setValuesAndAddToList(pictureList, null, info.getImgsrc());
+        }
+
+        detail.setPictures(pictureList);
+    }
+
+    private void setValuesAndAddToList(List<NewsPhotoDetail.Picture> list, String title, String imgsrc) {
+        NewsPhotoDetail.Picture picture = new NewsPhotoDetail.Picture();
+        if (title != null) {
+            picture.setTitle(title);
+        }
+        picture.setImgSrc(imgsrc);
+
+        list.add(picture);
     }
 
     //根据图片的张数设置不同的显示模式
@@ -210,7 +269,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
 
-    public class SingleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+    public class SingleViewHolder extends RecyclerView.ViewHolder{
         private ImageView mImageView;
         private TextView mTitle;
         private TextView mContent;
@@ -223,15 +283,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mContent = (TextView) itemView.findViewById(R.id.news_summary_digest_tv);
             mTime = (TextView) itemView.findViewById(R.id.news_summary_ptime_tv);
             mLayout = (RelativeLayout) itemView.findViewById(R.id.rl_root);
-            mLayout.setOnClickListener(this);
+
         }
 
-        @Override
-        public void onClick(View view) {
-            Toast.makeText(context,"点击了",Toast.LENGTH_SHORT).show();
-        }
     }
-    public class MultiViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MultiViewHolder extends RecyclerView.ViewHolder{
         private LinearLayout mLayout;
         private TextView mTitle;
         private TextView mTime;
@@ -249,13 +305,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mIvMiddle = (ImageView) itemView.findViewById(R.id.news_summary_photo_iv_middle);
             mIvRight = (ImageView) itemView.findViewById(R.id.news_summary_photo_iv_right);
             mRoot = (LinearLayout) itemView.findViewById(R.id.ll_root);
-            mRoot.setOnClickListener(this);
+
         }
 
-        @Override
-        public void onClick(View view) {
-            Toast.makeText(context,"点击了",Toast.LENGTH_SHORT).show();
-        }
+
     }
     public class HeaderViewHolder extends RecyclerView.ViewHolder{
         private GridView mGridView;
@@ -266,9 +319,24 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     String name = mTables.get(position).getNewsChannelName();
-                    ToastUitl.showShort(name);
+                    if(name.contains("全部")){
+                        ToastUitl.showShort("切换到新闻频道管理页面："+name);
+                        NewsChannelActivity.startAction((MainActivity) context);
+                    }else{
+                        ToastUitl.showShort("切换到新闻频道："+name);
+                        mNewsChannelListener.changeChannelListener(mTables.get(position));
+
+                    }
                 }
             });
         }
     }
+    public void setNewsChannelListener(OnNewsChannelListener listener){
+        mNewsChannelListener = listener;
+    }
+
+    public List<NewsInfo> getAdapterData(){
+        return list;
+    }
+
 }

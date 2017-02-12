@@ -38,9 +38,16 @@ public class NewsChannelTableManager {
     public static List<NewsChannelTable> loadNewsChannelsMine() {
         List<String> channelName = Arrays.asList(AppApplication.getAppContext().getResources().getStringArray(R.array.news_channel_name));
         List<String> channelId = Arrays.asList(AppApplication.getAppContext().getResources().getStringArray(R.array.news_channel_id));
-        List<Integer> channelImgRes = Arrays.asList(R.drawable.news_house,R.drawable.news_play,
-                R.drawable.news_movie,R.drawable.news_car,R.drawable.news_game,
-                R.drawable.news_education,R.drawable.news_travel,R.drawable.news_mobile,R.drawable.news_social);
+        List<Integer> channelImgRes = new ArrayList<Integer>();
+        channelImgRes.add(R.drawable.news_house);
+        channelImgRes.add(R.drawable.news_play);
+        channelImgRes.add(R.drawable.news_movie);
+        channelImgRes.add(R.drawable.news_car);
+        channelImgRes.add(R.drawable.news_game);
+        channelImgRes.add(R.drawable.news_education);
+        channelImgRes.add(R.drawable.news_travel);
+        channelImgRes.add(R.drawable.news_mobile);
+        channelImgRes.add(R.drawable.news_social);
         ArrayList<NewsChannelTable> newsChannelTables = new ArrayList<>();
         for (int i = 0; i < channelName.size(); i++) {
             NewsChannelTable entity = new NewsChannelTable(channelName.get(i), channelId.get(i)
@@ -60,10 +67,17 @@ public class NewsChannelTableManager {
         List<String> channelName = Arrays.asList(AppApplication.getAppContext().getResources().getStringArray(R.array.news_channel_name_static));
         System.out.println(channelName);
         List<String> channelId = Arrays.asList(AppApplication.getAppContext().getResources().getStringArray(R.array.news_channel_id_static));
-        List<Integer> channelImgRes = Arrays.asList(R.drawable.news_header,R.drawable.news_tech,
-                R.drawable.news_fincial,R.drawable.news_military,R.drawable.news_sports);
+        List<Integer> channelImgRes = new ArrayList<Integer>();
+        channelImgRes.add(R.drawable.news_header);
+        channelImgRes.add(R.drawable.news_tech);
+        channelImgRes.add(R.drawable.news_fincial);
+        channelImgRes.add(R.drawable.news_military);
+        channelImgRes.add(R.drawable.news_sports);
         ArrayList<NewsChannelTable> newsChannelTables = new ArrayList<>();
         for (int i = 0; i < channelName.size(); i++) {
+            System.out.println(channelName.get(i));
+            System.out.println(channelId.get(i));
+            System.out.println(channelImgRes.get(i));
             NewsChannelTable entity = new NewsChannelTable(channelName.get(i), channelId.get(i)
                     , ApiConstants.getType(channelId.get(i)), i <= 5, i, true, channelImgRes.get(i));
             newsChannelTables.add(entity);

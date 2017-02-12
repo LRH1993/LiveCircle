@@ -8,6 +8,7 @@
     <color name="toast_stroke_gray">#99d4d4d4</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="primary_text_white">#deffffff</color>
     <color name="red">#FFFF0000</color>
     <color name="green">#FF00FF00</color>
     <color name="gray">#FFF0F0F0</color>
@@ -15,4 +16,5 @@
     <color name="transparent">#00000000</color>
     <color name="role_right_gray">#929292</color>
     <color name="role_yellow_gray">#33CC99</color>
+    <color name="container_background">#EBEBEB</color>
 </resources>

@@ -55,4 +55,10 @@
         <item name="android:textColor">@color/gray_deep</item>
         <item name="android:textSize">@dimen/font_normal</item>
     </style>
+
+    <style name="action_bar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+    </style>
 </resources>

@@ -23,11 +23,6 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.lvr.livecircle.app.AppConstant;
-import com.lvr.livecircle.bean.FloatMsg;
-
-import de.greenrobot.event.EventBus;
-
 public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
     public ScrollAwareFABBehavior(Context context, AttributeSet attrs) {
         super();
@@ -49,11 +44,10 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
                                int dyUnconsumed) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
         if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
-            child.hide();
-            EventBus.getDefault().post(new FloatMsg(AppConstant.MENU_SHOW_HIDE,false));
-        } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
-            EventBus.getDefault().post(new FloatMsg(AppConstant.MENU_SHOW_HIDE,true));
-            child.show();
+            child.setVisibility(View.INVISIBLE);
+        } else if (dyConsumed < 0 && child.getVisibility() ==View.INVISIBLE) {
+            child.setVisibility(View.VISIBLE);
         }
+
     }
 }

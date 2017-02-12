@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lvr.livecircle.R;
 import com.lvr.livecircle.utils.ToastUitl;
 import com.lvr.livecircle.widget.LoadingDialog;
 
@@ -97,17 +96,19 @@ public abstract class BaseFragment extends Fragment {
      * @param msg
      */
     public void startProgressDialog(String msg) {
-        count--;
-        if(count==0){
             LoadingDialog.showDialogForLoading(getActivity(), msg, true);
-        }
+
     }
 
     /**
      * 停止加载进度条
      */
     public void stopProgressDialog() {
-        LoadingDialog.cancelDialogForLoading();
+        count--;
+        if(count==0){
+            LoadingDialog.cancelDialogForLoading();
+        }
+
     }
 
 
@@ -148,19 +149,23 @@ public abstract class BaseFragment extends Fragment {
      * 网络访问错误提醒
      */
     public void showNetErrorTip() {
-        ToastUitl.showToastWithImg(getText(R.string.net_error).toString(), R.drawable.ic_wifi_off);
+
     }
 
     public void showNetErrorTip(String error) {
-        ToastUitl.showToastWithImg(error, R.drawable.ic_wifi_off);
+
+    }
+    public  void showLoading(){
+
+    }
+    public  void stopLoading(){
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
-
-
     }
 
 
