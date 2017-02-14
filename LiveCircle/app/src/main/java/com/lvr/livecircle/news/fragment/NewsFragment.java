@@ -10,6 +10,7 @@ import com.lvr.livecircle.adapter.NewsListAdapter;
 import com.lvr.livecircle.adapter.OnNewsChannelListener;
 import com.lvr.livecircle.base.BaseFragment;
 import com.lvr.livecircle.bean.FabScrollBean;
+import com.lvr.livecircle.bean.HeaderBean;
 import com.lvr.livecircle.bean.NewsInfo;
 import com.lvr.livecircle.client.RxDisposeManager;
 import com.lvr.livecircle.news.model.bean.NewsChannelTable;
@@ -78,6 +79,10 @@ public class NewsFragment extends BaseFragment implements NewsView, SwipeRefresh
     public void onFabScrollEvent(FabScrollBean event){
         mRecyclerView.smoothScrollToPosition(0);
     }
+    @Subscribe
+    public void onHeaderEvent(HeaderBean event){
+        returnNewsChannel(event.getList());
+    }
 
     private void setLoadMoreListener() {
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -117,8 +122,15 @@ public class NewsFragment extends BaseFragment implements NewsView, SwipeRefresh
     @Override
     public void returnNewsChannel(List<NewsChannelTable> tables) {
         System.out.println(tables);
-        mTables = tables;
+        System.out.println("频道个数:"+tables.size());
+        mTables.clear();
+        mTables.addAll(tables) ;
         addAllChannel();
+        if(mNewsListAdapter!=null){
+            mNewsListAdapter.setTables(mTables);
+            mNewsListAdapter.notifyItemChanged(0);
+        }
+
     }
 
     @Override

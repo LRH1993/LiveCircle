@@ -1,5 +1,6 @@
 package com.lvr.livecircle.news.presenter.impl;
 
+import com.lvr.livecircle.bean.HeaderBean;
 import com.lvr.livecircle.bean.NewsInfo;
 import com.lvr.livecircle.client.RxDisposeManager;
 import com.lvr.livecircle.news.fragment.NewsFragment;
@@ -10,6 +11,7 @@ import com.lvr.livecircle.news.presenter.NewPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.Subscribe;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -23,6 +25,7 @@ public class NewsPresenterImpl implements NewPresenter {
     private NewsFragment mNewsView;
     private NewsModelImpl mNewsModel;
     private List<NewsInfo> mInfos;
+
 
     public NewsPresenterImpl(NewsFragment view) {
         this.mNewsView = view;
@@ -93,4 +96,5 @@ public class NewsPresenterImpl implements NewPresenter {
             }
         });
     }
+
 }

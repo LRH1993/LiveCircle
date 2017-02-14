@@ -338,5 +338,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public List<NewsInfo> getAdapterData(){
         return list;
     }
+    public void setTables(List<NewsChannelTable> list){
+        mTables = list;
+    }
+
 
 }

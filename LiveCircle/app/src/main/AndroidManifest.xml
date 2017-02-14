@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:theme="@style/AppTheme.Launcher"
             android:name=".home.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout">
             <intent-filter>

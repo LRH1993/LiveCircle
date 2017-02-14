@@ -8,7 +8,10 @@
     <style name="AppTheme" parent="MyTheme">
         <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
     </style>
-
+    <!--冷启动界面-->
+    <style name="AppTheme.Launcher" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!--普通dialog-->

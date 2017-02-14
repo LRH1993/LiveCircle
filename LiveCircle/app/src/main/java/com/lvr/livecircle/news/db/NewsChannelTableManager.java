@@ -35,7 +35,7 @@ public class NewsChannelTableManager {
      */
 
 
-    public static List<NewsChannelTable> loadNewsChannelsMine() {
+    public static List<NewsChannelTable> loadNewsChannelsMore() {
         List<String> channelName = Arrays.asList(AppApplication.getAppContext().getResources().getStringArray(R.array.news_channel_name));
         List<String> channelId = Arrays.asList(AppApplication.getAppContext().getResources().getStringArray(R.array.news_channel_id));
         List<Integer> channelImgRes = new ArrayList<Integer>();
@@ -79,7 +79,7 @@ public class NewsChannelTableManager {
             System.out.println(channelId.get(i));
             System.out.println(channelImgRes.get(i));
             NewsChannelTable entity = new NewsChannelTable(channelName.get(i), channelId.get(i)
-                    , ApiConstants.getType(channelId.get(i)), i <= 5, i, true, channelImgRes.get(i));
+                    , ApiConstants.getType(channelId.get(i)), i <= 5, i, i==0?true:false, channelImgRes.get(i));
             newsChannelTables.add(entity);
         }
         return newsChannelTables;
