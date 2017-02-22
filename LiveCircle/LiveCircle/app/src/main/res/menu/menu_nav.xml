@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <group android:checkableBehavior="single"
+        >
+
+
+        <item android:title="首页" android:id="@+id/mn_home" android:icon="@drawable/menu_home"></item>
+        <item android:title="离线缓存" android:id="@+id/mn_download" android:icon="@drawable/menu_download"></item>
+        <item android:title="我的收藏" android:id="@+id/mn_store" android:icon="@drawable/menu_store"></item>
+        <item android:title="个性化信息" android:id="@+id/mn_personal" android:icon="@drawable/menu_personal" ></item>
+        <item android:title="设置与帮助" android:id="@+id/mn_setting" android:icon="@drawable/menu_setting"></item>
+        <item android:title="注销" android:id="@+id/mn_out" android:icon="@drawable/menu_out"></item>
+
+
+    </group>
+</menu>

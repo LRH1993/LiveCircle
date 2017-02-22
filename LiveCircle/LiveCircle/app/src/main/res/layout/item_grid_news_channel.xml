@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+    android:layout_gravity="center">
+    <ImageView
+        android:padding="5dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/news_car"
+        android:id="@+id/iv_channel_logo"/>
+    <TextView
+        android:padding="5dp"
+        android:id="@+id/tv_channel_name"
+        android:layout_below="@id/iv_channel_logo"
+        android:text="汽车"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

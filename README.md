@@ -11,3 +11,7 @@ Live圈 边学边做，不断完善
 3.SwipeRefreshLayout+自定义模式 实现上拉刷新 下拉加载更多（有缺陷，没有下拉加载更多的提示，后期会尝试通过自定义RecycleView实现上拉刷新 下拉加载更多）
 
 4.RecycleView+ItemTouchHelper.Callback 实现Item的拖拽及滑动操作 实现新闻频道管理页面
+
+**图片模块**
+
+IRecyleView开源自定义控件，实现上拉刷新 下拉加载更多
