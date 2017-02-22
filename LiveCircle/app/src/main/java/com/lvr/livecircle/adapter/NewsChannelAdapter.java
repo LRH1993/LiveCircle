@@ -99,7 +99,7 @@ public class NewsChannelAdapter extends RecyclerView.Adapter<NewsChannelAdapter.
         if (isChannelFixed(fromPosition, toPosition)) {
             return false;
         }
-        //在我的频道或者更多频道中进行子频道的移动
+        //在我的频道子频道的移动
         Collections.swap(getAdapterData(), fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
         //通知顺序变换，存储，设置频道顺序，以及显示的顺序

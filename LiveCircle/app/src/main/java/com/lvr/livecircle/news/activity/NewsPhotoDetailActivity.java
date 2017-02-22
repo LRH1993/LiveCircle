@@ -79,8 +79,10 @@ public class NewsPhotoDetailActivity extends BaseActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 int pos = mCardScaleHelper.getCurrentItemPos();
-                String title = mNewsPhotoDetail.getPictures().get(pos).getTitle()==null?"":mNewsPhotoDetail.getPictures().get(pos).getTitle();
-                mPhotoDetailTitleTv.setText(pos+1+"/"+mNewsPhotoDetail.getPictures().size()+"  "+title);
+                String title = mNewsPhotoDetail.getPictures().get(pos).getTitle() == null ? "" : mNewsPhotoDetail.getPictures().get(pos).getTitle();
+                if(mPhotoDetailTitleTv!=null){
+                    mPhotoDetailTitleTv.setText(pos+1+"/"+mNewsPhotoDetail.getPictures().size()+"  "+title);
+                }
             }
 
         });

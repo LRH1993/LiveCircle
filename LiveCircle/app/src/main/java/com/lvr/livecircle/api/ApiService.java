@@ -2,6 +2,7 @@ package com.lvr.livecircle.api;
 
 
 import com.lvr.livecircle.bean.NewsInfo;
+import com.lvr.livecircle.meitu.model.bean.GirlData;
 import com.lvr.livecircle.news.model.bean.NewsDetail;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import retrofit2.http.Url;
 
 public interface ApiService {
     public static final String NEWS_BASE_URL = "http://c.m.163.com/nc/article/";
-
+    public static final String PHOTO_BASE_URL = "http://gank.io/api/data/福利/";
     @GET("{type}/{id}/{startPage}-20.html")
     Observable<Map<String, List<NewsInfo>>> getNewsList(
             @Path("type") String type, @Path("id") String id,
@@ -31,4 +32,6 @@ public interface ApiService {
     @GET
     Observable<ResponseBody> getNewsBodyHtmlPhoto(
             @Url String photoPath);
+    @GET("{size}/{page}")
+    Observable<GirlData> getPhotoList(@Path("size") int size, @Path("page") int page);
 }

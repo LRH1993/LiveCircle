@@ -63,8 +63,6 @@ public class NewsFragment extends BaseFragment implements NewsView, SwipeRefresh
     protected void initView() {
         mContext = getActivity();
         mPresenter = new NewsPresenterImpl(this);
-        mPresenter.lodeMineChannelsRequest();
-        mPresenter.loadNewsListRequest(cur_news_type, cur_news_id, cur_news_page);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRefreshLayout.setOnRefreshListener(this);
@@ -75,9 +73,21 @@ public class NewsFragment extends BaseFragment implements NewsView, SwipeRefresh
             EventBus.getDefault().register(this);
         }
     }
+
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if(!isFirst){
+            if(isVisible){
+                mPresenter.lodeMineChannelsRequest();
+                mPresenter.loadNewsListRequest(cur_news_type, cur_news_id, cur_news_page);
+            }
+        }
+    }
+
     @Subscribe
     public void onFabScrollEvent(FabScrollBean event){
         mRecyclerView.smoothScrollToPosition(0);
+
     }
     @Subscribe
     public void onHeaderEvent(HeaderBean event){
