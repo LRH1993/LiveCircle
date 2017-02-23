@@ -51,8 +51,6 @@ public class NewsFragment extends BaseFragment implements NewsView, SwipeRefresh
     private boolean isFirst;
 
 
-
-
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_news;
@@ -69,28 +67,27 @@ public class NewsFragment extends BaseFragment implements NewsView, SwipeRefresh
         //设置下拉刷新的按钮的颜色
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         setLoadMoreListener();
-        if(!EventBus.getDefault().isRegistered(this)){
+        if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
     }
 
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
-        if(!isFirst){
-            if(isVisible){
-                mPresenter.lodeMineChannelsRequest();
-                mPresenter.loadNewsListRequest(cur_news_type, cur_news_id, cur_news_page);
-            }
+        if (!isFirst && isVisible) {
+            mPresenter.lodeMineChannelsRequest();
+            mPresenter.loadNewsListRequest(cur_news_type, cur_news_id, cur_news_page);
         }
     }
 
     @Subscribe
-    public void onFabScrollEvent(FabScrollBean event){
+    public void onFabScrollEvent(FabScrollBean event) {
         mRecyclerView.smoothScrollToPosition(0);
 
     }
+
     @Subscribe
-    public void onHeaderEvent(HeaderBean event){
+    public void onHeaderEvent(HeaderBean event) {
         returnNewsChannel(event.getList());
     }
 
@@ -110,14 +107,15 @@ public class NewsFragment extends BaseFragment implements NewsView, SwipeRefresh
                     int totalItemCount = manager.getItemCount();
                     // 判断是否滚动到底部并且是向下滑动
                     if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast) {
-                        cur_news_page +=20;
-                        System.out.println("加载页数："+cur_news_page);
+                        cur_news_page += 20;
+                        System.out.println("加载页数：" + cur_news_page);
                         mPresenter.loadNewsListRequest(cur_news_type, cur_news_id, cur_news_page);
                     }
                 }
 
                 super.onScrollStateChanged(recyclerView, newState);
             }
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -132,11 +130,11 @@ public class NewsFragment extends BaseFragment implements NewsView, SwipeRefresh
     @Override
     public void returnNewsChannel(List<NewsChannelTable> tables) {
         System.out.println(tables);
-        System.out.println("频道个数:"+tables.size());
+        System.out.println("频道个数:" + tables.size());
         mTables.clear();
-        mTables.addAll(tables) ;
+        mTables.addAll(tables);
         addAllChannel();
-        if(mNewsListAdapter!=null){
+        if (mNewsListAdapter != null) {
             mNewsListAdapter.setTables(mTables);
             mNewsListAdapter.notifyItemChanged(0);
         }
@@ -213,6 +211,7 @@ public class NewsFragment extends BaseFragment implements NewsView, SwipeRefresh
         System.out.println(cur_news_id);
         mPresenter.loadNewsListRequest(cur_news_type, cur_news_id, cur_news_page);
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

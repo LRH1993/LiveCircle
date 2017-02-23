@@ -41,11 +41,9 @@ public class MeiTuFragment extends BaseFragment implements PhotoView, OnRefreshL
 
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
-        if (!isFirst) {
-            if (isVisible) {
-                LoadingDialog.showDialogForLoading(getActivity());
-                mPresenter.requestPhotoList(SIZE, mStartPage);
-            }
+        if (!isFirst && isVisible) {
+            LoadingDialog.showDialogForLoading(getActivity());
+            mPresenter.requestPhotoList(SIZE, mStartPage);
         }
     }
 
