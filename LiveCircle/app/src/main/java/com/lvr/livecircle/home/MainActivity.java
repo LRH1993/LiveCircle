@@ -22,7 +22,6 @@ import com.lvr.livecircle.R;
 import com.lvr.livecircle.adapter.HomeViewPagerAdapter;
 import com.lvr.livecircle.base.BaseActivity;
 import com.lvr.livecircle.bean.FabScrollBean;
-import com.lvr.livecircle.bean.FabShowBean;
 import com.lvr.livecircle.find.FindFragment;
 import com.lvr.livecircle.meitu.MeiTuFragment;
 import com.lvr.livecircle.music.MusicFragment;
@@ -37,7 +36,6 @@ import java.util.Arrays;
 
 import butterknife.BindView;
 import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
 
 public class MainActivity extends BaseActivity {
 
@@ -84,15 +82,15 @@ public class MainActivity extends BaseActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new FabScrollBean("滑动到顶端"));
+                EventBus.getDefault().post(new FabScrollBean("滑动到顶端",mTabs.getSelectedTabPosition()));
+
             }
         });
-        EventBus.getDefault().register(this);
         mTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
-                if(position==1){
+                if(position==1||position==3){
                     mFab.setVisibility(View.VISIBLE);
                 }else{
                     mFab.setVisibility(View.GONE);
@@ -111,16 +109,6 @@ public class MainActivity extends BaseActivity {
         });
 
     }
-    @Subscribe
-    public void onFabShowEvent(FabShowBean event){
-        if(event.isShow()){
-            mFab.setVisibility(View.VISIBLE);
-        }else{
-            mFab.setVisibility(View.GONE);
-        }
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

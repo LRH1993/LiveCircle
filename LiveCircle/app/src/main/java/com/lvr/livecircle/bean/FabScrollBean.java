@@ -7,9 +7,20 @@ package com.lvr.livecircle.bean;
 public class FabScrollBean {
     private String scrollMsg;
 
+    public int getPosition() {
+        return position;
+    }
 
-    public FabScrollBean(String scrollMsg) {
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    private int position;
+
+
+    public FabScrollBean(String scrollMsg,int position) {
         this.scrollMsg = scrollMsg;
+        this.position = position;
     }
 
     public String getScrollMsg() {

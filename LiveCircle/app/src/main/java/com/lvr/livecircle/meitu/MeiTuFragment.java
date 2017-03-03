@@ -9,6 +9,8 @@ import com.aspsine.irecyclerview.OnRefreshListener;
 import com.lvr.livecircle.R;
 import com.lvr.livecircle.adapter.PhotoListAdapter;
 import com.lvr.livecircle.base.BaseFragment;
+import com.lvr.livecircle.bean.FabScrollBean;
+import com.lvr.livecircle.client.RxDisposeManager;
 import com.lvr.livecircle.meitu.model.bean.PhotoGirl;
 import com.lvr.livecircle.meitu.presenter.impl.PhotoPresenterImpl;
 import com.lvr.livecircle.meitu.view.PhotoView;
@@ -18,6 +20,8 @@ import com.lvr.livecircle.widget.LoadingDialog;
 import java.util.List;
 
 import butterknife.BindView;
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 
 /**
  * Created by lvr on 2017/2/6.
@@ -31,7 +35,6 @@ public class MeiTuFragment extends BaseFragment implements PhotoView, OnRefreshL
     private int mStartPage = 1;
     private PhotoPresenterImpl mPresenter;
     private PhotoListAdapter mAdapter;
-    private boolean isFirst = false;//第一次加载的标志
     private LoadMoreFooterView mFooterView;
 
     @Override
@@ -41,23 +44,39 @@ public class MeiTuFragment extends BaseFragment implements PhotoView, OnRefreshL
 
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
-        if (!isFirst && isVisible) {
+        if(isVisible){
+            //可见，并且是第一次加载
+            mPresenter.requestPhotoList(SIZE,mStartPage);
             LoadingDialog.showDialogForLoading(getActivity());
-            mPresenter.requestPhotoList(SIZE, mStartPage);
+        }else{
+            //取消加载
+            RxDisposeManager.get().cancel("photoList");
+            LoadingDialog.cancelDialogForLoading();
         }
     }
 
     @Override
     protected void initView() {
+
         mContext = getActivity();
         mPresenter = new PhotoPresenterImpl(this);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        manager.setItemPrefetchEnabled(false);
+        mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
         mFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
-
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
+    @Subscribe
+    public void onFabScrollEvent(FabScrollBean event) {
+        if(event.getPosition()==3){
+            mRecyclerView.smoothScrollToPosition(0);
+        }
+    }
 
     @Override
     public void returnPhotoList(List<PhotoGirl> photoGirlList) {
@@ -108,6 +127,8 @@ public class MeiTuFragment extends BaseFragment implements PhotoView, OnRefreshL
         mPresenter.requestPhotoList(SIZE, mStartPage);
         mFooterView.setStatus(LoadMoreFooterView.Status.GONE);
     }
+
+
 
 
 }

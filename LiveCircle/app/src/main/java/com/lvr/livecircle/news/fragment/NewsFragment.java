@@ -47,8 +47,7 @@ public class NewsFragment extends BaseFragment implements NewsView, SwipeRefresh
     private String cur_news_id = "T1348647909107";
     //当前加载新闻页数
     private int cur_news_page = 0;
-    //设置第一次网络请求
-    private boolean isFirst;
+
 
 
     @Override
@@ -74,15 +73,20 @@ public class NewsFragment extends BaseFragment implements NewsView, SwipeRefresh
 
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
-        if (!isFirst && isVisible) {
+        if (isVisible) {
             mPresenter.lodeMineChannelsRequest();
             mPresenter.loadNewsListRequest(cur_news_type, cur_news_id, cur_news_page);
+        }else{
+            RxDisposeManager.get().cancel("newschannel");
+            RxDisposeManager.get().cancel("newslist");
         }
     }
 
     @Subscribe
     public void onFabScrollEvent(FabScrollBean event) {
-        mRecyclerView.smoothScrollToPosition(0);
+        if(event.getPosition()==1){
+            mRecyclerView.smoothScrollToPosition(0);
+        }
 
     }
 
