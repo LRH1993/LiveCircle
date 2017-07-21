@@ -1,7 +1,6 @@
 # LiveCircle
 Live圈 边学边做，不断完善
 
-###学到的知识点：
 **新闻模块**
 
 1.Toolbar+NavigationView+DrawerLayout 并实现沉浸式状态栏
