@@ -15,4 +15,7 @@ Live圈 边学边做，不断完善
 
 IRecyleView开源自定义控件，实现上拉刷新 下拉加载更多
 
-Fragment+ViewPager+TabLayout懒加载机制的实现
+Fragment+ViewPager+TabLayout懒加载机制的实现  
+![](http://upload-images.jianshu.io/upload_images/3985563-9fd54f74ee60ed5c.png?imageMogr2/auto-orient/strip%7CimageView2/2)
+![](http://upload-images.jianshu.io/upload_images/3985563-6a141a248f2f279a.png?imageMogr2/auto-orient/strip%7CimageView2/2)
+![](http://upload-images.jianshu.io/upload_images/3985563-23d52fd7c7e3fad2.png?imageMogr2/auto-orient/strip%7CimageView2/2)
